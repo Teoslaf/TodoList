@@ -23,12 +23,12 @@ class Todo extends Component {
 	}
 	handleUpdate(evt) {
 		evt.preventDefault();
-		this.props.updateTodo(this.props.id, this.state.task);
+		this.props.updateTodo(this.props.id, this.state.task.title);
 		this.setState({ isEditing: false });
 	}
 	handleChange(evt) {
 		this.setState({
-			[evt.target.name]: evt.target.value
+			task : { ...this.state.task, title: evt.target.value }
 		});
 	}
 	handleToggle(evt) {
@@ -38,21 +38,30 @@ class Todo extends Component {
 		let result;
 		if (this.state.isEditing) {
 			result = (
-				<div>
-					<form onSubmit={this.handleUpdate}>
-						<input type="text" value={this.state.task} onChange={this.handleChange} name="task" />
+				<div className="Todo">
+					<form className="Todo-edit-form" onSubmit={this.handleUpdate}>
+						<input type="text" value={this.state.task.title} onChange={this.handleChange} name="task" />
 						<button type="submit">Save</button>
 					</form>
 				</div>
 			);
 		} else {
 			result = (
-				<div>
-					<button onClick={this.toggleForm}>Edit</button>
-					<button onClick={this.handleRemove}>X</button>
-					<li className={this.props.completed ? 'completed' : ''} onClick={this.handleToggle}>
-						{this.props.task.title}
+				<div className="Todo">
+					<li
+						className={this.props.completed ? 'Todo-task completed' : 'Todo-task'}
+						onClick={this.handleToggle}
+					>
+						{this.state.task.title}
 					</li>
+					<div className="Todo-buttons">
+						<button onClick={this.toggleForm}>
+							<i className="fas fa-pen" />
+						</button>
+						<button onClick={this.handleRemove}>
+							<i className="fas fa-trash" />
+						</button>
+					</div>
 				</div>
 			);
 		}
