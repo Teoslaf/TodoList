@@ -51,7 +51,7 @@ class Todo extends Component {
 					<button onClick={this.toggleForm}>Edit</button>
 					<button onClick={this.handleRemove}>X</button>
 					<li className={this.props.completed ? 'completed' : ''} onClick={this.handleToggle}>
-						{this.props.task}
+						{this.props.task.title}
 					</li>
 				</div>
 			);

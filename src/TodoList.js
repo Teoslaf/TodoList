@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Todo from './Todo';
 import NewTodoForm from './NewTodoForm';
+import axios from 'axios';
 
 class TodoList extends Component {
 	constructor(props) {
@@ -41,13 +42,18 @@ class TodoList extends Component {
 		});
 		this.setState({ todos: updatedTodos });
 	}
+	async componentDidMount() {
+		let result = await axios.get('https://jsonplaceholder.typicode.com/todos');
+		this.setState({ todos: result.data });
+	}
+
 	render() {
 		const todos = this.state.todos.map((todo) => {
 			return (
 				<Todo
 					key={todo.id}
 					id={todo.id}
-					task={todo.task}
+					task={todo}
 					completed={todo.completed}
 					removeTodo={this.removeTodo}
 					updateTodo={this.update}
